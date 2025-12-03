@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@model Sistemas.Models.Servicio
+
+<h2>Eliminar Servicio</h2>
+
+<div class="alert alert-danger">¿Está seguro de eliminar este servicio?</div>
+
+<div class="card">
+    <div class="card-body">
+        <p><strong>ID:</strong> @Model.IdServicio</p>
+        <p><strong>Cliente:</strong> @Model.Cliente?.Nombre</p>
+        <p><strong>Fecha:</strong> @Model.Fecha.ToShortDateString()</p>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="IdServicio" />
+    <button class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

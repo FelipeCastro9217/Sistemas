@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Sistemas.Models.Cliente
+
+@*
+    Sprint 3 – HU0304
+    Consultar detalles del cliente
+*@
+
+<h2>Detalles del Cliente</h2>
+
+<div class="card mt-3">
+    <div class="card-body">
+
+        <p><strong>ID:</strong> @Model.IdCliente</p>
+        <p><strong>Nombre:</strong> @Model.Nombre @Model.Apellido</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Teléfono:</strong> @Model.Telefono</p>
+        <p><strong>Dirección:</strong> @Model.Direccion</p>
+        <p><strong>Fecha Registro:</strong> @Model.FechaRegistro.ToShortDateString()</p>
+
+        <a asp-action="Editar" asp-route-id="@Model.IdCliente" class="btn btn-warning">Editar</a>
+        <a asp-action="Historial" asp-route-id="@Model.IdCliente" class="btn btn-info">Ver Historial (HU0305)</a>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+
+    </div>
+</div>

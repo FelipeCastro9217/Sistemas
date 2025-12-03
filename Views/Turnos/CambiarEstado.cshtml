@@ -1,0 +1,26 @@
+﻿@model Sistemas.Models.Turno
+
+<h2>Cambiar Estado</h2>
+
+<form asp-action="CambiarEstado" method="post">
+
+    <input type="hidden" asp-for="Ctur" />
+
+    <div class="mb-3">
+        <label>Estado Actual: </label>
+        <strong>@Model.Estr</strong>
+    </div>
+
+    <div class="mb-3">
+        <label>Nuevo Estado</label>
+        <select asp-for="Estr" class="form-select">
+            <option>Pendiente</option>
+            <option>Asignado</option>
+            <option>En Proceso</option>
+            <option>Finalizado</option>
+            <option>Cancelado</option>
+        </select>
+    </div>
+
+    <button class="btn btn-success">Guardar</button>
+</form>

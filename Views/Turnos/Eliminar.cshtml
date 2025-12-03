@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Sistemas.Models.Turno
+
+@*
+    HU0105 – Sprint 1
+    Cancelar Turno
+*@
+
+<h2>Cancelar Turno (HU0105)</h2>
+
+<div class="alert alert-danger">
+    <h5>¿Está seguro de cancelar este turno?</h5>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <p><strong>Código:</strong> @Model.Ctur</p>
+        <p><strong>Cliente:</strong> @Model.Cliente?.Nombre</p>
+        <p><strong>Fecha:</strong> @Model.Ftrn.ToShortDateString()</p>
+        <p><strong>Hora:</strong> @Model.Htrn</p>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Ctur" />
+    <button class="btn btn-danger">Confirmar Cancelación</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>

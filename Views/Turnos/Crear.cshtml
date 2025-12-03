@@ -1,0 +1,44 @@
+﻿@model Sistemas.Models.Turno
+
+<h2>Registrar Turno (HU0101)</h2>
+
+<form asp-action="Crear" method="post" class="mt-3">
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <label>Cliente</label>
+            <select asp-for="Ccli" class="form-select" asp-items="ViewBag.Clientes">
+                <option value="">Seleccione...</option>
+            </select>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label>Empleado (opcional)</label>
+            <select asp-for="Cemp" class="form-select" asp-items="ViewBag.Empleados">
+                <option value="">Sin asignar</option>
+            </select>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label>Bahía</label>
+            <input asp-for="Cbah" class="form-control" />
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label>Fecha</label>
+            <input asp-for="Ftrn" type="date" class="form-control" />
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label>Hora</label>
+            <input asp-for="Htrn" type="time" class="form-control" />
+        </div>
+
+        <input type="hidden" asp-for="Estr" value="Pendiente" />
+
+    </div>
+
+    <button class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>

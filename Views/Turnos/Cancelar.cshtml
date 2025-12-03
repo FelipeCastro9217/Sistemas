@@ -1,0 +1,34 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Sistemas.Models.Turno
+
+@{
+    ViewData["Title"] = "Cancelar Turno";
+}
+
+<h2>Cancelar Turno (HU0105)</h2>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <p><strong>Código:</strong> @Model.Ctur</p>
+        <p><strong>Cliente:</strong> @Model.Cliente?.Nombre @Model.Cliente?.Apellido</p>
+        <p><strong>Empleado:</strong> @Model.Empleado?.Nombre</p>
+        <p><strong>Fecha:</strong> @Model.Ftrn.ToString("yyyy-MM-dd")</p>
+        <p><strong>Hora:</strong> @Model.Htrn</p>
+        <p><strong>Estado actual:</strong> @Model.Estr</p>
+
+        <form asp-action="CancelarConfirmed" method="post">
+            <input type="hidden" asp-for="Ctur" name="id" value="@Model.Ctur" />
+            <div class="alert alert-warning mt-3">
+                <strong>Atención:</strong> Al cancelar el turno se liberará al empleado asignado (si existe) y el estado cambiará a <em>Cancelado</em>.
+            </div>
+
+            <button type="submit" class="btn btn-danger">Confirmar Cancelación</button>
+            <a asp-action="Index" class="btn btn-secondary">Volver</a>
+        </form>
+    </div>
+</div>

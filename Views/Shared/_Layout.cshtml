@@ -1,0 +1,136 @@
+﻿@* 
+    Layout Global del Proyecto "Sistemas"
+    Incluye menús para los módulos de los 3 primeros sprints.
+    - Sprint 1: Gestión de Turnos
+    - Sprint 2: Gestión de Servicios
+    - Sprint 3: Gestión de Clientes
+    Este layout será usado por todas las vistas.
+*@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Sistemas</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+            <div class="container-fluid">
+
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    SISTEMAS - AutoClean
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav" aria-controls="navbarNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+
+                    <ul class="navbar-nav me-auto">
+
+                        <!-- Sprint 1 - Turnos -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                                Turnos
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Turnos" asp-action="Index">Lista de Turnos</a></li>
+                                <li><a class="dropdown-item" asp-controller="Turnos" asp-action="Crear">Registrar Turno (HU0101)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Sprint 2 - Servicios -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                Servicios
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Servicios" asp-action="Index">Lista de Servicios</a></li>
+                                <li><a class="dropdown-item" asp-controller="Servicios" asp-action="Crear">Registrar Servicio (HU0201)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Sprint 3 - Clientes -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                                Clientes
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Clientes" asp-action="Index">Lista de Clientes</a></li>
+                                <li><a class="dropdown-item" asp-controller="Clientes" asp-action="Crear">Registrar Cliente (HU0301)</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Empleados (extra del proyecto) -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Empleados" asp-action="Index">Empleados</a>
+                        </li>
+
+                        <!-- Reportes -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Reportes" asp-action="Index">Reportes</a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Login y sesión -->
+                    <ul class="navbar-nav ms-auto">
+
+                        @if (Context.Session != null && Context.Session.GetString("usuario") != null)
+                        {
+                            <li class="nav-item">
+                                <span class="navbar-text text-white me-3">
+                                    Usuario: @Context.Session.GetString("usuario")
+                                </span>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="btn btn-outline-light" asp-controller="Acceso" asp-action="CerrarSesion">
+                                    Cerrar Sesión
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-success" asp-controller="Acceso" asp-action="Index">
+                                    Iniciar Sesión
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="bg-dark text-white text-center p-3 mt-4">
+        Sistemas - AutoClean © @DateTime.Now.Year
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

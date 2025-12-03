@@ -1,0 +1,54 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<Sistemas.Models.Cliente>
+
+@*
+    Sprint 3 – HU0304
+    Consultar lista de clientes y permitir búsqueda.
+*@
+
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<h2 class="mb-4">Listado de Clientes (HU0304)</h2>
+
+<a asp-action="Crear" class="btn btn-primary mb-3">Registrar Cliente (HU0301)</a>
+<a asp-action="Buscar" class="btn btn-success mb-3 ms-2">Buscar Cliente</a>
+
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Fecha Registro</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.IdCliente</td>
+                <td>@c.Nombre @c.Apellido</td>
+                <td>@c.Telefono</td>
+                <td>@c.Email</td>
+                <td>@c.FechaRegistro.ToShortDateString()</td>
+
+                <td>
+                    <a asp-action="Details" asp-route-id="@c.IdCliente" class="btn btn-info btn-sm">Detalles</a>
+                    <a asp-action="Editar" asp-route-id="@c.IdCliente" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@c.IdCliente" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a asp-action="Historial" asp-route-id="@c.IdCliente" class="btn btn-secondary btn-sm">Historial</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

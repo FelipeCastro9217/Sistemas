@@ -1,0 +1,32 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Sistemas.Models.Servicio
+
+@*
+    Sprint 2 – HU0203
+    Eliminar servicio existente
+*@
+
+<h2>Eliminar Servicio (HU0203)</h2>
+
+<div class="alert alert-danger">
+    <h5>¿Está seguro de eliminar este servicio?</h5>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <p><strong>ID:</strong> @Model.IdServicio</p>
+        <p><strong>Cliente:</strong> @Model.Cliente?.Nombre</p>
+        <p><strong>Fecha:</strong> @Model.Fecha.ToShortDateString()</p>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post" class="mt-3">
+    <input type="hidden" asp-for="IdServicio" />
+    <button class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

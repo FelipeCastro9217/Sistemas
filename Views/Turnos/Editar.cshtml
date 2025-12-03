@@ -1,0 +1,38 @@
+﻿@model Sistemas.Models.Turno
+
+<h2>Editar Turno</h2>
+
+<form asp-action="Editar" method="post">
+    @Html.AntiForgeryToken()
+
+    <!-- ID oculto -->
+    <input type="hidden" asp-for="Ctur" />
+
+    <!-- Selección de Cliente -->
+    <div class="mb-3">
+        <label>Cliente</label>
+        <select asp-for="Ccli" class="form-select" asp-items="ViewBag.Clientes"></select>
+    </div>
+
+    <!-- Fecha -->
+    <div class="mb-3">
+        <label>Fecha</label>
+        <input asp-for="Ftrn" type="date" class="form-control" />
+    </div>
+
+    <!-- Hora -->
+    <div class="mb-3">
+        <label>Hora</label>
+        <input asp-for="Htrn" type="text" pattern="\d{2}:\d{2}" class="form-control" />
+    </div>
+
+    <!-- Bahía -->
+    <div class="mb-3">
+        <label>Bahía</label>
+        <input asp-for="Cbah" type="number" class="form-control" />
+    </div>
+
+    <!-- Botón Guardar -->
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>

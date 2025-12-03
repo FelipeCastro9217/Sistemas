@@ -1,0 +1,14 @@
+﻿@model Sistemas.Models.Turno
+
+<h2>Detalles del Turno</h2>
+
+<ul class="list-group">
+    <li class="list-group-item"><strong>Cliente:</strong> @Model.Cliente?.Nombre</li>
+    <li class="list-group-item"><strong>Empleado:</strong> @Model.Empleado?.Nombre</li>
+    <li class="list-group-item"><strong>Fecha:</strong> @Model.Ftrn.ToShortDateString()</li>
+    <li class="list-group-item"><strong>Hora:</strong> @Model.Htrn</li>
+    <li class="list-group-item"><strong>Bahía:</strong> @Model.Cbah</li>
+    <li class="list-group-item"><strong>Estado:</strong> @Model.Estr</li>
+</ul>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Volver</a>

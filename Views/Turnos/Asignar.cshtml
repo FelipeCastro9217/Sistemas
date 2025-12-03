@@ -1,0 +1,15 @@
+﻿@model Sistemas.Models.Turno
+
+<h2>Asignar Empleado</h2>
+
+<form asp-action="Asignar" method="post">
+
+    <input type="hidden" name="id" value="@Model.Ctur" />
+
+    <div class="mb-3">
+        <label>Empleado</label>
+        <select name="Cemp" class="form-select" asp-items="ViewBag.Empleados"></select>
+    </div>
+
+    <button class="btn btn-success">Asignar</button>
+</form>

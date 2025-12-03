@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Sistemas.Models.Turno
+
+@*
+    HU0104 – Sprint 1
+    Reprogramar turno seleccionando nueva fecha u hora
+*@
+
+<h2>Reprogramar Turno (HU0104)</h2>
+
+<form asp-action="Reprogramar" method="post">
+    <input type="hidden" asp-for="Ctur" />
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Nueva Fecha</label>
+            <input asp-for="Ftrn" type="date" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Nueva Hora</label>
+            <input asp-for="Htrn" type="time" class="form-control" />
+        </div>
+
+    </div>
+
+    <button class="btn btn-primary">Reprogramar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>
