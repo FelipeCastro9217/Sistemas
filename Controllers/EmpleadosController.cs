@@ -37,6 +37,7 @@ namespace Sistemas.Controllers
             model.Disponibilidad = "Disponible";
             _context.Empleados.Add(model);
             await _context.SaveChangesAsync();
+            TempData["Success"] = "Empleado registrado exitosamente";
 
             return RedirectToAction(nameof(Index));
         }
@@ -59,6 +60,8 @@ namespace Sistemas.Controllers
 
             _context.Update(model);
             await _context.SaveChangesAsync();
+            TempData["Success"] = "Empleado actualizado exitosamente";
+
             return RedirectToAction(nameof(Index));
         }
 

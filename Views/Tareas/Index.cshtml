@@ -1,0 +1,64 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<Sistemas.Models.Tarea>
+
+<h2>Gestión de Tareas (HU0402)</h2>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+<a asp-action="Crear" class="btn btn-primary mb-3">Asignar Nueva Tarea</a>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Empleado</th>
+            <th>Descripción</th>
+            <th>Fecha Asignación</th>
+            <th>Estado</th>
+            <th>Prioridad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdTarea</td>
+                <td>@item.Empleado?.Nombre @item.Empleado?.Apellido</td>
+                <td>@item.Descripcion</td>
+                <td>@item.FechaAsignacion.ToShortDateString()</td>
+                <td>
+                    <span class="badge bg-@(item.Estado == "Completada" ? "success" : item.Estado == "En Proceso" ? "warning" : "secondary")">
+                        @item.Estado
+                    </span>
+                </td>
+                <td>
+                    <span class="badge bg-@(item.Prioridad == "Alta" ? "danger" : item.Prioridad == "Media" ? "warning" : "info")">
+                        @item.Prioridad
+                    </span>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.IdTarea" class="btn btn-info btn-sm">Detalles</a>
+                    <a asp-action="Editar" asp-route-id="@item.IdTarea" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@item.IdTarea" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,73 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<Sistemas.Models.Asistencia>
+
+<h2>Control de Asistencias (HU0403)</h2>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <a asp-action="RegistrarEntrada" class="btn btn-primary">Registrar Entrada</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="col-md-6">
+        <form asp-action="Index" method="get" class="d-flex">
+            <input type="date" name="fecha" value="@ViewBag.FechaFiltro" class="form-control me-2" />
+            <button class="btn btn-secondary">Filtrar</button>
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Empleado</th>
+            <th>Fecha</th>
+            <th>Hora Entrada</th>
+            <th>Hora Salida</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Empleado?.Nombre @item.Empleado?.Apellido</td>
+                <td>@item.Fecha.ToShortDateString()</td>
+                <td>@item.HoraEntrada?.ToString("HH:mm")</td>
+                <td>@item.HoraSalida?.ToString("HH:mm")</td>
+                <td>
+                    <span class="badge bg-@(item.Estado == "Presente" ? "success" : item.Estado == "Retardo" ? "warning" : "danger")">
+                        @item.Estado
+                    </span>
+                </td>
+                <td>
+                    @if (item.HoraSalida == null)
+                    {
+                        <a asp-action="RegistrarSalida" asp-route-id="@item.IdAsistencia" class="btn btn-success btn-sm">Registrar Salida</a>
+                    }
+                    <a asp-action="Editar" asp-route-id="@item.IdAsistencia" class="btn btn-warning btn-sm">Editar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

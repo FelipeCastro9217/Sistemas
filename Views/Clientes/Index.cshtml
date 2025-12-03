@@ -14,6 +14,21 @@
     ViewData["Title"] = "Clientes";
 }
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
 <h2 class="mb-4">Listado de Clientes (HU0304)</h2>
 
 <a asp-action="Crear" class="btn btn-primary mb-3">Registrar Cliente (HU0301)</a>

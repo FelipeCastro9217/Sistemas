@@ -20,7 +20,12 @@ namespace Sistemas.Data
         public DbSet<Notificacion> Notificaciones { get; set; }
         public DbSet<Pago> Pagos { get; set; }
 
-        
+        public DbSet<Tarea> Tareas { get; set; }
+        public DbSet<Asistencia> Asistencias { get; set; }
+        public DbSet<Desempeno> Desempenos { get; set; }
+        public DbSet<AuditoriaRegistro> AuditoriasRegistros { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -1,0 +1,24 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Sistemas.Models.Vehiculo
+
+<h2>Detalles del Vehículo</h2>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <p><strong>Placa:</strong> @Model.Placa</p>
+        <p><strong>Marca:</strong> @Model.Marca</p>
+        <p><strong>Modelo:</strong> @Model.Modelo</p>
+        <p><strong>Color:</strong> @Model.Color</p>
+        <p><strong>Tipo:</strong> @Model.Tipo</p>
+        <p><strong>Cliente:</strong> @Model.Cliente?.Nombre @Model.Cliente?.Apellido</p>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Editar" asp-route-id="@Model.IdVehiculo" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</div>

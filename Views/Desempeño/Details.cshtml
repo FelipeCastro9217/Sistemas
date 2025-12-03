@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    var empleado = ViewBag.Empleado as Sistemas.Models.Empleado;
+    var servicios = ViewBag.Servicios as List<Sistemas.Models.Servicio>;
+    var asistencias = ViewBag.Asistencias as List<Sistemas.Models.Asistencia>;
+    var tareas = ViewBag.Tareas as List<Sistemas.Models.Tarea>;
+}
+
+<h2>Detalle de Desempeño - @empleado.Nombre @empleado.Apellido</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Servicios Completados</h5>
+                <h2 class="text-primary">@servicios.Count</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Asistencias</h5>
+                <h2 class="text-success">@asistencias.Count</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Tareas Asignadas</h5>
+                <h2 class="text-warning">@tareas.Count</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Tareas Completadas</h5>
+                <h2 class="text-info">@tareas.Count(t => t.Estado == "Completada")</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4>Servicios Realizados</h4>
+<table class="table table-sm table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Tipo Servicio</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in servicios)
+        {
+            <tr>
+                <td>@s.Fecha.ToShortDateString()</td>
+                <td>@s.Cliente?.Nombre</td>
+                <td>@s.TipoServicio?.Nombre</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Volver</a>

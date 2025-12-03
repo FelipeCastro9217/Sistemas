@@ -2,13 +2,21 @@
 
 <h2>Registrar Turno (HU0101)</h2>
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
 <form asp-action="Crear" method="post" class="mt-3">
+    @Html.AntiForgeryToken()
 
     <div class="row">
-
         <div class="col-md-4 mb-3">
             <label>Cliente</label>
-            <select asp-for="Ccli" class="form-select" asp-items="ViewBag.Clientes">
+            <select asp-for="Ccli" class="form-select" asp-items="ViewBag.Clientes" required>
                 <option value="">Seleccione...</option>
             </select>
         </div>
@@ -22,23 +30,29 @@
 
         <div class="col-md-4 mb-3">
             <label>Bahía</label>
-            <input asp-for="Cbah" class="form-control" />
+            <input asp-for="Cbah" type="number" class="form-control" />
         </div>
 
-        <div class="col-md-4 mb-3">
+        <div class="col-md-6 mb-3">
             <label>Fecha</label>
-            <input asp-for="Ftrn" type="date" class="form-control" />
+            <input asp-for="Ftrn" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
         </div>
 
-        <div class="col-md-4 mb-3">
-            <label>Hora</label>
-            <input asp-for="Htrn" type="time" class="form-control" />
+        <div class="col-md-6 mb-3">
+            <label>Hora (HH:MM)</label>
+            <input asp-for="Htrn" type="time" class="form-control" required />
         </div>
-
-        <input type="hidden" asp-for="Estr" value="Pendiente" />
-
     </div>
 
-    <button class="btn btn-success">Guardar</button>
+    <!-- Campo oculto para el estado -->
+    <input type="hidden" asp-for="Estr" value="Pendiente" />
+
+    <button type="submit" class="btn btn-success">Guardar Turno</button>
     <a asp-action="Index" class="btn btn-secondary">Volver</a>
 </form>
+
+<div asp-validation-summary="All" class="text-danger mt-3"></div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

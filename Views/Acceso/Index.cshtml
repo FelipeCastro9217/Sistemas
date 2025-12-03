@@ -9,7 +9,21 @@
 @{
     ViewData["Title"] = "Inicio de Sesión";
 }
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
 <div class="container mt-5" style="max-width: 450px;">
     <h2 class="mb-4 text-center">Inicio de Sesión</h2>
 

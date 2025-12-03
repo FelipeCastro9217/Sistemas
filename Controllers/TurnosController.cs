@@ -15,9 +15,7 @@ namespace Sistemas.Controllers
             _context = context;
         }
 
-        // ==========================
         // LISTAR
-        // ==========================
         public async Task<IActionResult> Index()
         {
             var turnos = await _context.Turnos
@@ -29,9 +27,7 @@ namespace Sistemas.Controllers
             return View(turnos);
         }
 
-        // ==========================
         // DETALLES
-        // ==========================
         public async Task<IActionResult> Details(int id)
         {
             var turno = await _context.Turnos
@@ -45,9 +41,7 @@ namespace Sistemas.Controllers
             return View(turno);
         }
 
-        // ==========================
         // CREAR GET
-        // ==========================
         public IActionResult Crear()
         {
             ViewBag.Clientes = new SelectList(_context.Clientes, "IdCliente", "Nombre");
@@ -55,52 +49,54 @@ namespace Sistemas.Controllers
             return View();
         }
 
-        // ==========================
-        // CREAR POST
-        // ==========================
+        // CREAR POST (CORREGIDO)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear(Turno model)
         {
+            // Remover validaciones de navegación
+            ModelState.Remove("Cliente");
+            ModelState.Remove("Empleado");
+
             if (ModelState.IsValid)
             {
                 model.Estr = "Pendiente";
                 _context.Turnos.Add(model);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Turno registrado exitosamente";
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Clientes = new SelectList(_context.Clientes, "IdCliente", "Nombre");
-            ViewBag.Empleados = new SelectList(_context.Empleados, "IdEmpleado", "Nombre");
+            ViewBag.Clientes = new SelectList(_context.Clientes, "IdCliente", "Nombre", model.Ccli);
+            ViewBag.Empleados = new SelectList(_context.Empleados, "IdEmpleado", "Nombre", model.Cemp);
             return View(model);
         }
 
-        // ==========================
         // EDITAR GET
-        // ==========================
         public async Task<IActionResult> Editar(int id)
         {
             var turno = await _context.Turnos.FindAsync(id);
             if (turno == null)
                 return NotFound();
 
-            ViewBag.Clientes = new SelectList(_context.Clientes, "IdCliente", "Nombre");
+            ViewBag.Clientes = new SelectList(_context.Clientes, "IdCliente", "Nombre", turno.Ccli);
+            ViewBag.Empleados = new SelectList(_context.Empleados, "IdEmpleado", "Nombre", turno.Cemp);
             return View(turno);
         }
 
-        // ==========================
         // EDITAR POST (CORREGIDO)
-        // ==========================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Editar(Turno model)
         {
+            ModelState.Remove("Cliente");
+            ModelState.Remove("Empleado");
+
             if (!ModelState.IsValid)
             {
-                var errores = string.Join("; ", ModelState.Values
-                                                 .SelectMany(v => v.Errors)
-                                                 .Select(e => e.ErrorMessage));
-                return Content("Errores de validación: " + errores);
+                ViewBag.Clientes = new SelectList(_context.Clientes, "IdCliente", "Nombre", model.Ccli);
+                ViewBag.Empleados = new SelectList(_context.Empleados, "IdEmpleado", "Nombre", model.Cemp);
+                return View(model);
             }
 
             var turno = await _context.Turnos.FindAsync(model.Ctur);
@@ -111,17 +107,15 @@ namespace Sistemas.Controllers
             turno.Ftrn = model.Ftrn;
             turno.Htrn = model.Htrn;
             turno.Cbah = model.Cbah;
+            turno.Cemp = model.Cemp;
 
             await _context.SaveChangesAsync();
+            TempData["Success"] = "Turno actualizado exitosamente";
 
             return RedirectToAction(nameof(Index));
         }
 
-
-
-        // ==========================
         // ASIGNAR EMPLEADO GET
-        // ==========================
         public async Task<IActionResult> Asignar(int id)
         {
             var turno = await _context.Turnos
@@ -131,14 +125,13 @@ namespace Sistemas.Controllers
             if (turno == null)
                 return NotFound();
 
-            ViewBag.Empleados = new SelectList(_context.Empleados, "IdEmpleado", "Nombre");
+            ViewBag.Empleados = new SelectList(_context.Empleados.Where(e => e.Disponibilidad == "Disponible"),
+                "IdEmpleado", "Nombre");
 
             return View(turno);
         }
 
-        // ==========================
         // ASIGNAR EMPLEADO POST
-        // ==========================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Asignar(int id, int Cemp)
@@ -151,13 +144,12 @@ namespace Sistemas.Controllers
             turno.Estr = "Asignado";
 
             await _context.SaveChangesAsync();
+            TempData["Success"] = "Empleado asignado exitosamente";
 
             return RedirectToAction(nameof(Index));
         }
 
-        // ==========================
         // CAMBIAR ESTADO GET
-        // ==========================
         public async Task<IActionResult> CambiarEstado(int id)
         {
             var turno = await _context.Turnos.FindAsync(id);
@@ -167,9 +159,7 @@ namespace Sistemas.Controllers
             return View(turno);
         }
 
-        // ==========================
         // CAMBIAR ESTADO POST
-        // ==========================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CambiarEstado(Turno model)
@@ -180,16 +170,18 @@ namespace Sistemas.Controllers
 
             turno.Estr = model.Estr;
             await _context.SaveChangesAsync();
+            TempData["Success"] = "Estado actualizado exitosamente";
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Cancelar(int id)
+        // CANCELAR GET
+        public async Task<IActionResult> Cancelar(int id)
         {
-            var turno = _context.Turnos
-                                .Include(t => t.Cliente)
-                                .Include(t => t.Empleado)
-                                .FirstOrDefault(t => t.Ctur == id);
+            var turno = await _context.Turnos
+                .Include(t => t.Cliente)
+                .Include(t => t.Empleado)
+                .FirstOrDefaultAsync(t => t.Ctur == id);
 
             if (turno == null)
                 return NotFound();
@@ -197,6 +189,7 @@ namespace Sistemas.Controllers
             return View(turno);
         }
 
+        // CANCELAR POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CancelarConfirmed(int id)
@@ -205,14 +198,13 @@ namespace Sistemas.Controllers
             if (turno == null)
                 return NotFound();
 
-            // Liberar empleado si existe
             turno.Cemp = null;
             turno.Estr = "Cancelado";
 
             await _context.SaveChangesAsync();
+            TempData["Success"] = "Turno cancelado exitosamente";
+
             return RedirectToAction(nameof(Index));
         }
-
-
     }
 }

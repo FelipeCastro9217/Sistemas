@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h2>Conteo de Vehículos (HU0502)</h2>
+
+<form asp-action="ContarVehiculos" method="get" class="row mb-4">
+    <div class="col-md-4">
+        <label>Desde</label>
+        <input type="date" name="desde" value="@ViewBag.Desde" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label>Hasta</label>
+        <input type="date" name="hasta" value="@ViewBag.Hasta" class="form-control" />
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+        <button class="btn btn-primary">Consultar</button>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Vehículos Únicos Atendidos</h5>
+                <h1 class="display-3 text-primary">@ViewBag.VehiculosUnicos</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Total de Servicios</h5>
+                <h1 class="display-3 text-success">@ViewBag.TotalServicios</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="mt-4">Servicios por Tipo</h4>
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Tipo de Servicio</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.PorTipo)
+        {
+            <tr>
+                <td>@item.Tipo</td>
+                <td>@item.Cantidad</td>
+            </tr>
+        }
+    </tbody>
+</table>

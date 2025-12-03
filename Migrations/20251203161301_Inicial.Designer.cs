@@ -12,8 +12,8 @@ using Sistemas.Data;
 namespace Sistemas.Migrations
 {
     [DbContext(typeof(AutoCleanDbContext))]
-    [Migration("20251128235854_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251203161301_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,83 @@ namespace Sistemas.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Sistemas.Models.Asistencia", b =>
+                {
+                    b.Property<int>("IdAsistencia")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAsistencia"));
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("HoraEntrada")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("HoraSalida")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEmpleado")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Observaciones")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("IdAsistencia");
+
+                    b.HasIndex("IdEmpleado");
+
+                    b.ToTable("Asistencias");
+                });
+
+            modelBuilder.Entity("Sistemas.Models.AuditoriaRegistro", b =>
+                {
+                    b.Property<int>("IdAuditoria")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAuditoria"));
+
+                    b.Property<string>("Accion")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("DatosAnteriores")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("DatosNuevos")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("FechaHora")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEntidad")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TipoEntidad")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UsuarioResponsable")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("IdAuditoria");
+
+                    b.ToTable("AuditoriasRegistros");
+                });
 
             modelBuilder.Entity("Sistemas.Models.Cliente", b =>
                 {
@@ -64,6 +141,46 @@ namespace Sistemas.Migrations
                     b.HasKey("IdCliente");
 
                     b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("Sistemas.Models.Desempeno", b =>
+                {
+                    b.Property<int>("IdDesempeno")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdDesempeno"));
+
+                    b.Property<int>("Calificacion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comentarios")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("FechaEvaluacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEmpleado")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PeriodoFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PeriodoInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ServiciosCompletados")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TiempoPromedioServicio")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("IdDesempeno");
+
+                    b.HasIndex("IdEmpleado");
+
+                    b.ToTable("Desempenos");
                 });
 
             modelBuilder.Entity("Sistemas.Models.Empleado", b =>
@@ -226,12 +343,10 @@ namespace Sistemas.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Observaciones")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ResultadoServicio")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -244,6 +359,52 @@ namespace Sistemas.Migrations
                     b.HasIndex("IdTipoServicio");
 
                     b.ToTable("Servicios");
+                });
+
+            modelBuilder.Entity("Sistemas.Models.Tarea", b =>
+                {
+                    b.Property<int>("IdTarea")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdTarea"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("FechaAsignacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaFin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEmpleado")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Observaciones")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Prioridad")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("IdTarea");
+
+                    b.HasIndex("IdEmpleado");
+
+                    b.ToTable("Tareas");
                 });
 
             modelBuilder.Entity("Sistemas.Models.TipoServicio", b =>
@@ -354,6 +515,28 @@ namespace Sistemas.Migrations
                     b.ToTable("Vehiculos");
                 });
 
+            modelBuilder.Entity("Sistemas.Models.Asistencia", b =>
+                {
+                    b.HasOne("Sistemas.Models.Empleado", "Empleado")
+                        .WithMany()
+                        .HasForeignKey("IdEmpleado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Empleado");
+                });
+
+            modelBuilder.Entity("Sistemas.Models.Desempeno", b =>
+                {
+                    b.HasOne("Sistemas.Models.Empleado", "Empleado")
+                        .WithMany()
+                        .HasForeignKey("IdEmpleado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Empleado");
+                });
+
             modelBuilder.Entity("Sistemas.Models.HistorialServicio", b =>
                 {
                     b.HasOne("Sistemas.Models.Cliente", "Cliente")
@@ -418,6 +601,17 @@ namespace Sistemas.Migrations
                     b.Navigation("Empleado");
 
                     b.Navigation("TipoServicio");
+                });
+
+            modelBuilder.Entity("Sistemas.Models.Tarea", b =>
+                {
+                    b.HasOne("Sistemas.Models.Empleado", "Empleado")
+                        .WithMany()
+                        .HasForeignKey("IdEmpleado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Empleado");
                 });
 
             modelBuilder.Entity("Sistemas.Models.Turno", b =>

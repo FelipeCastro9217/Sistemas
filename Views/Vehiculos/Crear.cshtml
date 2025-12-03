@@ -1,0 +1,61 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Sistemas.Models.Vehiculo
+
+<h2>Registrar Vehículo</h2>
+
+<form asp-action="Crear" method="post">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label>Placa</label>
+            <input asp-for="Placa" class="form-control" required />
+            <span asp-validation-for="Placa" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Cliente</label>
+            <select asp-for="IdCliente" class="form-select" asp-items="ViewBag.Clientes" required>
+                <option value="">Seleccione...</option>
+            </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Marca</label>
+            <input asp-for="Marca" class="form-control" required />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Modelo</label>
+            <input asp-for="Modelo" class="form-control" required />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Color</label>
+            <input asp-for="Color" class="form-control" required />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Tipo</label>
+            <select asp-for="Tipo" class="form-select" required>
+                <option value="">Seleccione...</option>
+                <option value="Carro">Carro</option>
+                <option value="Moto">Moto</option>
+                <option value="Camioneta">Camioneta</option>
+                <option value="SUV">SUV</option>
+                <option value="Camión">Camión</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn btn-success">Guardar Vehículo</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>
+
+<div asp-validation-summary="All" class="text-danger mt-3"></div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

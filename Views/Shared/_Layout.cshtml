@@ -64,6 +64,7 @@
                         </li>
 
                         <!-- Sprint 3 - Clientes -->
+                        <!-- Clientes -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
                                 Clientes
@@ -71,19 +72,28 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" asp-controller="Clientes" asp-action="Index">Lista de Clientes</a></li>
                                 <li><a class="dropdown-item" asp-controller="Clientes" asp-action="Crear">Registrar Cliente (HU0301)</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Vehiculos" asp-action="Index">Vehículos</a></li>
+                                <li><a class="dropdown-item" asp-controller="Vehiculos" asp-action="Crear">Registrar Vehículo</a></li>
+                            </ul>
+                        </li>
+                        <!-- Sprint 4 - Personal -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                                Personal
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Empleados" asp-action="Index">Empleados</a></li>
+                                <li><a class="dropdown-item" asp-controller="Tareas" asp-action="Index">Tareas (HU0402)</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asistencias" asp-action="Index">Asistencias (HU0403)</a></li>
+                                <li><a class="dropdown-item" asp-controller="Desempeño" asp-action="Index">Desempeño (HU0404)</a></li>
                             </ul>
                         </li>
 
-                        <!-- Empleados (extra del proyecto) -->
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Empleados" asp-action="Index">Empleados</a>
-                        </li>
-
-                        <!-- Reportes -->
+                        <!-- Sprint 5 - Reportes -->
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Reportes" asp-action="Index">Reportes</a>
                         </li>
-
                     </ul>
 
                     <!-- Login y sesión -->

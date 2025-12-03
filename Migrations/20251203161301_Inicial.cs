@@ -6,11 +6,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sistemas.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AuditoriasRegistros",
+                columns: table => new
+                {
+                    IdAuditoria = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TipoEntidad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IdEntidad = table.Column<int>(type: "int", nullable: false),
+                    Accion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FechaHora = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UsuarioResponsable = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    DatosAnteriores = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    DatosNuevos = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditoriasRegistros", x => x.IdAuditoria);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Clientes",
                 columns: table => new
@@ -108,6 +127,82 @@ namespace Sistemas.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Asistencias",
+                columns: table => new
+                {
+                    IdAsistencia = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdEmpleado = table.Column<int>(type: "int", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HoraEntrada = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    HoraSalida = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Estado = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Observaciones = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Asistencias", x => x.IdAsistencia);
+                    table.ForeignKey(
+                        name: "FK_Asistencias_Empleados_IdEmpleado",
+                        column: x => x.IdEmpleado,
+                        principalTable: "Empleados",
+                        principalColumn: "IdEmpleado",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Desempenos",
+                columns: table => new
+                {
+                    IdDesempeno = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdEmpleado = table.Column<int>(type: "int", nullable: false),
+                    FechaEvaluacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Calificacion = table.Column<int>(type: "int", nullable: false),
+                    ServiciosCompletados = table.Column<int>(type: "int", nullable: false),
+                    TiempoPromedioServicio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Comentarios = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    PeriodoInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PeriodoFin = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Desempenos", x => x.IdDesempeno);
+                    table.ForeignKey(
+                        name: "FK_Desempenos_Empleados_IdEmpleado",
+                        column: x => x.IdEmpleado,
+                        principalTable: "Empleados",
+                        principalColumn: "IdEmpleado",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tareas",
+                columns: table => new
+                {
+                    IdTarea = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdEmpleado = table.Column<int>(type: "int", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FechaAsignacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaInicio = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FechaFin = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Estado = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Observaciones = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Prioridad = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tareas", x => x.IdTarea);
+                    table.ForeignKey(
+                        name: "FK_Tareas_Empleados_IdEmpleado",
+                        column: x => x.IdEmpleado,
+                        principalTable: "Empleados",
+                        principalColumn: "IdEmpleado",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Turnos",
                 columns: table => new
                 {
@@ -146,8 +241,8 @@ namespace Sistemas.Migrations
                     IdCliente = table.Column<int>(type: "int", nullable: false),
                     IdEmpleado = table.Column<int>(type: "int", nullable: true),
                     IdTipoServicio = table.Column<int>(type: "int", nullable: false),
-                    ResultadoServicio = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Observaciones = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
+                    ResultadoServicio = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Observaciones = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -224,6 +319,16 @@ namespace Sistemas.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Asistencias_IdEmpleado",
+                table: "Asistencias",
+                column: "IdEmpleado");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Desempenos_IdEmpleado",
+                table: "Desempenos",
+                column: "IdEmpleado");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Historiales_IdCliente",
                 table: "Historiales",
                 column: "IdCliente");
@@ -259,6 +364,11 @@ namespace Sistemas.Migrations
                 column: "IdTipoServicio");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tareas_IdEmpleado",
+                table: "Tareas",
+                column: "IdEmpleado");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Turnos_Ccli",
                 table: "Turnos",
                 column: "Ccli");
@@ -278,6 +388,15 @@ namespace Sistemas.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Asistencias");
+
+            migrationBuilder.DropTable(
+                name: "AuditoriasRegistros");
+
+            migrationBuilder.DropTable(
+                name: "Desempenos");
+
+            migrationBuilder.DropTable(
                 name: "Historiales");
 
             migrationBuilder.DropTable(
@@ -285,6 +404,9 @@ namespace Sistemas.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pagos");
+
+            migrationBuilder.DropTable(
+                name: "Tareas");
 
             migrationBuilder.DropTable(
                 name: "Turnos");

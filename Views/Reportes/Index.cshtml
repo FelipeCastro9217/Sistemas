@@ -1,0 +1,82 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h2>Panel de Reportes y Control General</h2>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+<div class="row mt-4">
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Servicios</h5>
+            </div>
+            <div class="card-body">
+                <p>Consultar servicios realizados con filtros avanzados.</p>
+                <a asp-action="MostrarServicios" class="btn btn-primary">Ver Servicios (HU0501)</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5>Vehículos Atendidos</h5>
+            </div>
+            <div class="card-body">
+                <p>Conteo de vehículos únicos atendidos en un periodo.</p>
+                <a asp-action="ContarVehiculos" class="btn btn-success">Contar Vehículos (HU0502)</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-header bg-warning text-white">
+                <h5>Ingresos</h5>
+            </div>
+            <div class="card-body">
+                <p>Resumen de ingresos generados por periodo.</p>
+                <a asp-action="VerIngresos" class="btn btn-warning">Ver Ingresos (HU0503)</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5>Empleados</h5>
+            </div>
+            <div class="card-body">
+                <p>Consultar y filtrar información de empleados.</p>
+                <a asp-action="ConsultarEmpleados" class="btn btn-info">Consultar Empleados (HU0504)</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5>Servicios Frecuentes</h5>
+            </div>
+            <div class="card-body">
+                <p>Top de servicios más solicitados.</p>
+                <a asp-action="ServiciosFrecuentes" class="btn btn-danger">Servicios Frecuentes (HU0505)</a>
+            </div>
+        </div>
+    </div>
+</div>
