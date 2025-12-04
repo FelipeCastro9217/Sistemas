@@ -4,19 +4,24 @@
 @{
 }
 
-
 @model Sistemas.Models.Empleado
 
 <h2>Eliminar Empleado</h2>
 
 <div class="alert alert-danger">¿Está seguro de eliminar este empleado?</div>
 
-<form asp-action="DeleteConfirmed" method="post">
+<div class="card">
+    <div class="card-body">
+        <p><strong>Nombre:</strong> @Model.Nombre @Model.Apellido</p>
+        <p><strong>Puesto:</strong> @Model.Puesto</p>
+        <p><strong>Teléfono:</strong> @Model.Telefono</p>
+        <p><strong>Disponibilidad:</strong> @Model.Disponibilidad</p>
+    </div>
+</div>
+
+<form asp-action="Eliminar" method="post" class="mt-3">
     @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="IdEmpleado" />
-
-    <p><strong>@Model.Nombre @Model.Apellido</strong></p>
-
+    <input type="hidden" name="id" value="@Model.IdEmpleado" />
     <button class="btn btn-danger">Eliminar</button>
     <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>

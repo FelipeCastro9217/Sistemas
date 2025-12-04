@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Sistemas.Models.Asistencia
+
+<h2>Registrar Salida</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <p><strong>Empleado:</strong> @Model.Empleado?.Nombre @Model.Empleado?.Apellido</p>
+        <p><strong>Fecha:</strong> @Model.Fecha.ToShortDateString()</p>
+        <p><strong>Hora Entrada:</strong> @Model.HoraEntrada?.ToString("HH:mm")</p>
+    </div>
+</div>
+
+<div class="alert alert-info">
+    <strong>Hora actual:</strong> @DateTime.Now.ToString("HH:mm:ss")
+</div>
+
+<form asp-action="RegistrarSalidaConfirmada" method="post">
+    <input type="hidden" name="IdAsistencia" value="@Model.IdAsistencia" />
+
+    <button class="btn btn-success">Confirmar Salida</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

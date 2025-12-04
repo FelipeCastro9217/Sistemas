@@ -19,7 +19,7 @@ namespace Sistemas.Data
         public DbSet<Turno> Turnos { get; set; }
         public DbSet<Notificacion> Notificaciones { get; set; }
         public DbSet<Pago> Pagos { get; set; }
-
+        public DbSet<ClasificacionCliente> ClasificacionesClientes { get; set; }
         public DbSet<Tarea> Tareas { get; set; }
         public DbSet<Asistencia> Asistencias { get; set; }
         public DbSet<Desempeno> Desempenos { get; set; }

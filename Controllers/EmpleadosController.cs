@@ -17,7 +17,8 @@ namespace Sistemas.Controllers
         // LISTAR EMPLEADOS
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Empleados.ToListAsync());
+            var empleados = await _context.Empleados.ToListAsync();
+            return View(empleados);
         }
 
         // GET: CREAR EMPLEADO
@@ -73,16 +74,18 @@ namespace Sistemas.Controllers
             return View(empleado);
         }
 
-        // POST: ELIMINAR EMPLEADO
+        // POST: ELIMINAR EMPLEADO (CORREGIDO)
         [HttpPost]
+        [ActionName("Eliminar")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> EliminarConfirmado(int id)
         {
             var empleado = await _context.Empleados.FindAsync(id);
             if (empleado != null)
             {
                 _context.Empleados.Remove(empleado);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Empleado eliminado exitosamente";
             }
             return RedirectToAction(nameof(Index));
         }

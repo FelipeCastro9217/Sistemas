@@ -53,6 +53,7 @@ namespace Sistemas.Controllers
             if (placaExiste)
             {
                 ModelState.AddModelError("Placa", "Ya existe un vehículo con esta placa.");
+                TempData["Error"] = "Ya existe un vehículo con esta placa.";
                 ViewBag.Clientes = new SelectList(_context.Clientes, "IdCliente", "Nombre");
                 return View(model);
             }

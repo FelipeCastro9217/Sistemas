@@ -6,23 +6,47 @@
 
 @model Sistemas.Models.Notificacion
 
-@*
-    Sprint 3 – HU0305
-    Enviar aviso al cliente
-*@
+@{
+    var cliente = ViewBag.Cliente as Sistemas.Models.Cliente;
+}
 
-<h2>Enviar Aviso al Cliente (HU0305)</h2>
+<h2>Enviar Aviso al Cliente</h2>
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5>Cliente Destinatario</h5>
+    </div>
+    <div class="card-body">
+        <p><strong>Nombre:</strong> @cliente.Nombre @cliente.Apellido</p>
+        <p><strong>Email:</strong> @cliente.Email</p>
+        <p><strong>Teléfono:</strong> @cliente.Telefono</p>
+    </div>
+</div>
 
 <form asp-action="EnviarAviso" method="post">
-
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="IdCliente" />
 
     <div class="mb-3">
         <label class="form-label">Mensaje</label>
-        <textarea asp-for="Mensaje" class="form-control" rows="4" required></textarea>
+        <textarea asp-for="Mensaje" class="form-control" rows="5" required
+                  placeholder="Escriba el mensaje que desea enviar al cliente..."></textarea>
+        <div class="form-text">El mensaje será registrado en el sistema y podrá ser visualizado en el historial.</div>
     </div>
 
-    <button class="btn btn-success">Enviar Aviso</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    <div class="mb-3">
+        <label class="form-label">Tipo de Notificación</label>
+        <select class="form-select">
+            <option value="Recordatorio">Recordatorio de Servicio</option>
+            <option value="Promoción">Promoción Especial</option>
+            <option value="Confirmación">Confirmación de Turno</option>
+            <option value="Seguimiento">Seguimiento Post-Servicio</option>
+            <option value="General">Mensaje General</option>
+        </select>
+    </div>
 
+    <button class="btn btn-success">
+        <i class="bi bi-send"></i> Enviar Aviso
+    </button>
+    <a asp-action="Details" asp-route-id="@cliente.IdCliente" class="btn btn-secondary">Cancelar</a>
 </form>

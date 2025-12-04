@@ -41,7 +41,8 @@ namespace Sistemas.Migrations
                     Telefono = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Direccion = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Clasificacion = table.Column<string>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

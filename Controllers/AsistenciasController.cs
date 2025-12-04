@@ -107,6 +107,7 @@ namespace Sistemas.Controllers
             return View(asistencia);
         }
 
+        // POST: EDITAR ASISTENCIA
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Editar(Asistencia model)
@@ -128,6 +129,7 @@ namespace Sistemas.Controllers
             await RegistrarAuditoria("Asistencia", model.IdAsistencia, "Editar",
                 $"Estado: {original?.Estado}", $"Estado: {model.Estado}");
 
+            TempData["Success"] = "Asistencia actualizada exitosamente";
             return RedirectToAction(nameof(Index));
         }
 

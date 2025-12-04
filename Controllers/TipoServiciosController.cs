@@ -34,6 +34,7 @@ namespace Sistemas.Controllers
             {
                 _context.TipoServicios.Add(model);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Tipo de servicio creado exitosamente";
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -55,12 +56,13 @@ namespace Sistemas.Controllers
             {
                 _context.Update(model);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Tipo de servicio actualizado exitosamente";
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
         }
 
-        // ELIMINAR
+        // ELIMINAR GET
         public async Task<IActionResult> Eliminar(int id)
         {
             var tipo = await _context.TipoServicios.FindAsync(id);
@@ -68,7 +70,9 @@ namespace Sistemas.Controllers
             return View(tipo);
         }
 
-        [HttpPost, ActionName("Eliminar")]
+        // ELIMINAR POST (CORREGIDO)
+        [HttpPost]
+        [ActionName("Eliminar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EliminarConfirmado(int id)
         {
@@ -77,6 +81,7 @@ namespace Sistemas.Controllers
             {
                 _context.TipoServicios.Remove(tipo);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Tipo de servicio eliminado exitosamente";
             }
             return RedirectToAction(nameof(Index));
         }

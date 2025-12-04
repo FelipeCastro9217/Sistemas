@@ -3,7 +3,6 @@
 *@
 @{
 }
-
 @model IEnumerable<Sistemas.Models.TipoServicio>
 
 <h2>Tipos de Servicios</h2>
@@ -24,6 +23,7 @@
 }
 <a asp-action="Crear" class="btn btn-primary mb-3">Registrar Tipo de Servicio</a>
 
+
 <table class="table table-bordered table-striped">
     <thead class="table-dark">
         <tr>
@@ -42,7 +42,7 @@
                 <td>@item.IdTipoServicio</td>
                 <td>@item.Nombre</td>
                 <td>@item.Descripcion</td>
-                <td>$@item.Precio</td>
+                <td>$@item.Precio.ToString("N0")</td>
                 <td>
                     <a asp-action="Editar" asp-route-id="@item.IdTipoServicio" class="btn btn-warning btn-sm">Editar</a>
                     <a asp-action="Eliminar" asp-route-id="@item.IdTipoServicio" class="btn btn-danger btn-sm">Eliminar</a>

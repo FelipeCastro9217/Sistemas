@@ -1,9 +1,6 @@
 ﻿@model IEnumerable<Sistemas.Models.Turno>
 
 <h2>Listado de Turnos</h2>
-
-<a asp-action="Crear" class="btn btn-primary mb-3">Registrar Turno</a>
-
 @if (TempData["Success"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show">
@@ -19,6 +16,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
+<a asp-action="Crear" class="btn btn-primary mb-3">Registrar Turno</a>
+
+
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
         <tr>

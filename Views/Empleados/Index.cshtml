@@ -24,6 +24,7 @@
 }
 <a asp-action="Crear" class="btn btn-primary mb-3">Registrar Empleado</a>
 
+
 <table class="table table-bordered table-striped">
     <thead class="table-dark">
         <tr>
@@ -46,7 +47,11 @@
                 <td>@e.Apellido</td>
                 <td>@e.Puesto</td>
                 <td>@e.Telefono</td>
-                <td>@e.Disponibilidad</td>
+                <td>
+                    <span class="badge bg-@(e.Disponibilidad == "Disponible" ? "success" : "warning")">
+                        @e.Disponibilidad
+                    </span>
+                </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@e.IdEmpleado" class="btn btn-info btn-sm">Detalles</a>
                     <a asp-action="Editar" asp-route-id="@e.IdEmpleado" class="btn btn-warning btn-sm">Editar</a>

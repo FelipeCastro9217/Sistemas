@@ -34,6 +34,7 @@ namespace Sistemas.Controllers
         }
 
         // POST: CREAR TAREA (HU0402)
+        // POST: CREAR TAREA (HU0402)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Crear(Tarea model)
@@ -49,6 +50,7 @@ namespace Sistemas.Controllers
             if (empleado == null || empleado.Disponibilidad != "Disponible")
             {
                 ModelState.AddModelError("", "El empleado no está disponible.");
+                TempData["Error"] = "El empleado seleccionado no está disponible.";
                 CargarEmpleadosDisponibles();
                 return View(model);
             }
@@ -63,6 +65,7 @@ namespace Sistemas.Controllers
             if (conflicto)
             {
                 ModelState.AddModelError("", "El empleado ya tiene una tarea asignada en esta fecha.");
+                TempData["Error"] = "El empleado ya tiene una tarea asignada en esta fecha.";
                 CargarEmpleadosDisponibles();
                 return View(model);
             }
@@ -74,6 +77,7 @@ namespace Sistemas.Controllers
             await RegistrarAuditoria("Tarea", model.IdTarea, "Crear", null,
                 $"Tarea asignada a {empleado.Nombre}");
 
+            TempData["Success"] = "Tarea asignada exitosamente a " + empleado.Nombre;
             return RedirectToAction(nameof(Index));
         }
 
@@ -110,6 +114,7 @@ namespace Sistemas.Controllers
                 $"Estado: {tareaOriginal?.Estado}",
                 $"Estado: {model.Estado}");
 
+            TempData["Success"] = "Tarea actualizada exitosamente";
             return RedirectToAction(nameof(Index));
         }
 
@@ -125,6 +130,7 @@ namespace Sistemas.Controllers
         }
 
         // POST: ELIMINAR TAREA
+        // POST: ELIMINAR TAREA
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -137,6 +143,8 @@ namespace Sistemas.Controllers
 
                 await RegistrarAuditoria("Tarea", id, "Eliminar",
                     $"Tarea eliminada", null);
+
+                TempData["Success"] = "Tarea eliminada exitosamente";
             }
             return RedirectToAction(nameof(Index));
         }

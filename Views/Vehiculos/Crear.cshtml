@@ -7,7 +7,16 @@
 
 <h2>Registrar Vehículo</h2>
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
 <form asp-action="Crear" method="post">
+  
     <div class="row">
         <div class="col-md-6 mb-3">
             <label>Placa</label>

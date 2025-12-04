@@ -63,6 +63,7 @@ namespace Sistemas.Controllers
 
             var servicios = await _context.Servicios
                 .Include(s => s.Cliente)
+                .Include(s => s.TipoServicio)  // IMPORTANTE: Incluir TipoServicio
                 .Where(s => s.Fecha >= desde && s.Fecha <= hasta)
                 .ToListAsync();
 
@@ -74,6 +75,7 @@ namespace Sistemas.Controllers
             var totalServicios = servicios.Count;
 
             var porTipo = servicios
+                .Where(s => s.TipoServicio != null)  // FILTRAR NULOS
                 .GroupBy(s => s.TipoServicio.Nombre)
                 .Select(g => new { Tipo = g.Key, Cantidad = g.Count() })
                 .OrderByDescending(x => x.Cantidad)
@@ -99,9 +101,12 @@ namespace Sistemas.Controllers
                 .Where(s => s.Fecha >= desde && s.Fecha <= hasta)
                 .ToListAsync();
 
-            var totalIngresos = servicios.Sum(s => s.TipoServicio?.Precio ?? 0);
+            var totalIngresos = servicios
+                .Where(s => s.TipoServicio != null)  // FILTRAR NULOS
+                .Sum(s => s.TipoServicio.Precio);
 
             var ingresosPorTipo = servicios
+                .Where(s => s.TipoServicio != null)  // FILTRAR NULOS
                 .GroupBy(s => s.TipoServicio.Nombre)
                 .Select(g => new
                 {

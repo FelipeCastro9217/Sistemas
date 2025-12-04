@@ -3,13 +3,7 @@
 *@
 @{
 }
-
 @model Sistemas.Models.Cliente
-
-@*
-    Sprint 3 – HU0304
-    Consultar detalles del cliente
-*@
 
 <h2>Detalles del Cliente</h2>
 
@@ -22,10 +16,29 @@
         <p><strong>Teléfono:</strong> @Model.Telefono</p>
         <p><strong>Dirección:</strong> @Model.Direccion</p>
         <p><strong>Fecha Registro:</strong> @Model.FechaRegistro.ToShortDateString()</p>
+        <p>
+            <strong>Clasificación:</strong>
+            @if (string.IsNullOrEmpty(Model.Clasificacion))
+            {
+                <span class="badge bg-secondary">Sin clasificar</span>
+            }
+            else
+            {
+                <span class="badge bg-@(Model.Clasificacion == "VIP" ? "warning" : Model.Clasificacion == "Frecuente" ? "info" : "secondary")">
+                    @Model.Clasificacion
+                </span>
+            }
+        </p>
 
-        <a asp-action="Editar" asp-route-id="@Model.IdCliente" class="btn btn-warning">Editar</a>
-        <a asp-action="Historial" asp-route-id="@Model.IdCliente" class="btn btn-info">Ver Historial (HU0305)</a>
-        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+        <div class="btn-group mt-3" role="group">
+            <a asp-action="Editar" asp-route-id="@Model.IdCliente" class="btn btn-warning">Editar</a>
+            <a asp-action="Historial" asp-route-id="@Model.IdCliente" class="btn btn-info">Ver Historial</a>
+            <a asp-action="Clasificar" asp-route-id="@Model.IdCliente" class="btn btn-primary">Clasificar Cliente</a>
+            <a asp-action="EnviarAviso" asp-route-id="@Model.IdCliente" class="btn btn-success">Enviar Aviso</a>
+            <a asp-action="Notificaciones" asp-route-id="@Model.IdCliente" class="btn btn-secondary">Ver Avisos</a>
+        </div>
+
+        <a asp-action="Index" class="btn btn-secondary mt-3 d-block">Volver al Listado</a>
 
     </div>
 </div>

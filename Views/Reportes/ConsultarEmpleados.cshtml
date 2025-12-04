@@ -6,41 +6,57 @@
 @model IEnumerable<Sistemas.Controllers.EmpleadoConEstadisticas>
 
 <h2>Consultar Empleados (HU0504)</h2>
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <strong>No se encontraron servicios</strong> con los criterios de búsqueda.
+    </div>
+}
 
 <form asp-action="ConsultarEmpleados" method="get" class="mb-3">
     <div class="input-group">
         <input type="text" name="busqueda" value="@ViewBag.Busqueda" class="form-control"
                placeholder="Buscar por nombre, apellido o puesto..." />
         <button class="btn btn-primary">Buscar</button>
+        <a asp-action="ConsultarEmpleados" class="btn btn-secondary">Limpiar</a>
     </div>
 </form>
 
-<table class="table table-striped table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>Nombre</th>
-            <th>Puesto</th>
-            <th>Teléfono</th>
-            <th>Disponibilidad</th>
-            <th>Servicios Realizados</th>
-            <th>Tareas Completadas</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <strong>No se encontraron empleados</strong> con los criterios de búsqueda.
+    </div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
             <tr>
-                <td>@item.Empleado.Nombre @item.Empleado.Apellido</td>
-                <td>@item.Empleado.Puesto</td>
-                <td>@item.Empleado.Telefono</td>
-                <td>
-                    <span class="badge bg-@(item.Empleado.Disponibilidad == "Disponible" ? "success" : "warning")">
-                        @item.Empleado.Disponibilidad
-                    </span>
-                </td>
-                <td class="text-center">@item.ServiciosRealizados</td>
-                <td class="text-center">@item.TareasCompletadas</td>
+                <th>Nombre</th>
+                <th>Puesto</th>
+                <th>Teléfono</th>
+                <th>Disponibilidad</th>
+                <th>Servicios Realizados</th>
+                <th>Tareas Completadas</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Empleado.Nombre @item.Empleado.Apellido</td>
+                    <td>@item.Empleado.Puesto</td>
+                    <td>@item.Empleado.Telefono</td>
+                    <td>
+                        <span class="badge bg-@(item.Empleado.Disponibilidad == "Disponible" ? "success" : "warning")">
+                            @item.Empleado.Disponibilidad
+                        </span>
+                    </td>
+                    <td class="text-center">@item.ServiciosRealizados</td>
+                    <td class="text-center">@item.TareasCompletadas</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

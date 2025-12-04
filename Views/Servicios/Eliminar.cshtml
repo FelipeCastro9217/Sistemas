@@ -4,7 +4,6 @@
 @{
 }
 
-
 @model Sistemas.Models.Servicio
 
 <h2>Eliminar Servicio</h2>
@@ -14,14 +13,16 @@
 <div class="card">
     <div class="card-body">
         <p><strong>ID:</strong> @Model.IdServicio</p>
-        <p><strong>Cliente:</strong> @Model.Cliente?.Nombre</p>
+        <p><strong>Cliente:</strong> @Model.Cliente?.Nombre @Model.Cliente?.Apellido</p>
         <p><strong>Fecha:</strong> @Model.Fecha.ToShortDateString()</p>
+        <p><strong>Empleado:</strong> @Model.Empleado?.Nombre</p>
+        <p><strong>Tipo de Servicio:</strong> @Model.TipoServicio?.Nombre</p>
     </div>
 </div>
 
-<form asp-action="DeleteConfirmed" method="post">
+<form asp-action="Eliminar" method="post" class="mt-3">
     @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="IdServicio" />
+    <input type="hidden" name="id" value="@Model.IdServicio" />
     <button class="btn btn-danger">Eliminar</button>
     <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>

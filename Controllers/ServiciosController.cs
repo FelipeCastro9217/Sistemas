@@ -97,6 +97,7 @@ namespace Sistemas.Controllers
 
         // POST: ELIMINAR SERVICIO
         [HttpPost]
+        [ActionName("Eliminar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -105,10 +106,10 @@ namespace Sistemas.Controllers
             {
                 _context.Servicios.Remove(servicio);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Servicio eliminado exitosamente";
             }
             return RedirectToAction(nameof(Index));
         }
-
         // DETALLES
         public async Task<IActionResult> Details(int id)
         {

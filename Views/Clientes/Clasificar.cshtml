@@ -1,0 +1,79 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Sistemas.Models.ClasificacionCliente
+
+@{
+    var cliente = ViewBag.Cliente as Sistemas.Models.Cliente;
+}
+
+<h2>Clasificar Cliente</h2>
+
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5>Información del Cliente</h5>
+    </div>
+    <div class="card-body">
+        <p><strong>Nombre:</strong> @cliente.Nombre @cliente.Apellido</p>
+        <p><strong>Email:</strong> @cliente.Email</p>
+        <p><strong>Teléfono:</strong> @cliente.Telefono</p>
+        <p>
+            <strong>Clasificación Actual:</strong>
+            <span class="badge bg-secondary">@(cliente.Clasificacion ?? "Sin clasificar")</span>
+        </p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Servicios Realizados</h5>
+                <h2 class="text-primary">@ViewBag.TotalServicios</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Total Gastado</h5>
+                <h2 class="text-success">$@ViewBag.TotalGastado.ToString("N0")</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-info">
+    <strong>Sugerencia automática:</strong> @ViewBag.Sugerencia
+</div>
+
+<form asp-action="Clasificar" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="IdCliente" />
+    <input type="hidden" asp-for="ServiciosRealizados" value="@ViewBag.TotalServicios" />
+    <input type="hidden" asp-for="TotalGastado" value="@ViewBag.TotalGastado" />
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label>Tipo de Clasificación</label>
+            <select asp-for="TipoClasificacion" class="form-select" required>
+                <option value="">Seleccione...</option>
+                <option value="VIP">VIP - Cliente Premium</option>
+                <option value="Frecuente">Frecuente - Cliente Recurrente</option>
+                <option value="Normal">Normal - Cliente Regular</option>
+                <option value="Nuevo">Nuevo - Cliente Nuevo</option>
+            </select>
+        </div>
+
+        <div class="col-md-12 mb-3">
+            <label>Observaciones</label>
+            <textarea asp-for="Observaciones" class="form-control" rows="3"
+                      placeholder="Comentarios adicionales sobre la clasificación..."></textarea>
+        </div>
+    </div>
+
+    <button class="btn btn-success">Guardar Clasificación</button>
+    <a asp-action="Details" asp-route-id="@cliente.IdCliente" class="btn btn-secondary">Cancelar</a>
+</form>
