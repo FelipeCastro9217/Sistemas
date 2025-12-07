@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Sistemas.Data;
 using Sistemas.Models;
@@ -14,7 +15,7 @@ namespace Sistemas.Controllers
             _context = context;
         }
 
-        // REVISAR DESEMPEÑO (HU0404)
+        // REVISAR DESEMPEÑO (HU0404) - Vista resumida
         public async Task<IActionResult> Index(DateTime? desde, DateTime? hasta)
         {
             if (!desde.HasValue) desde = DateTime.Today.AddMonths(-1);
@@ -86,6 +87,140 @@ namespace Sistemas.Controllers
             ViewBag.Hasta = hasta.Value.ToString("yyyy-MM-dd");
 
             return View();
+        }
+
+     
+        // LISTADO DE EVALUACIONES REGISTRADAS
+        
+        public async Task<IActionResult> Evaluaciones()
+        {
+            var evaluaciones = await _context.Desempenos
+                .Include(d => d.Empleado)
+                .OrderByDescending(d => d.FechaEvaluacion)
+                .ToListAsync();
+
+            return View(evaluaciones);
+        }
+
+       
+        // CREAR EVALUACIÓN DE DESEMPEÑO
+       
+        public IActionResult Crear()
+        {
+            CargarEmpleados();
+            return View(new Desempeno
+            {
+                FechaEvaluacion = DateTime.Now,
+                PeriodoInicio = DateTime.Today.AddMonths(-1),
+                PeriodoFin = DateTime.Today
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Crear(Desempeno model)
+        {
+            ModelState.Remove("Empleado");
+
+            if (!ModelState.IsValid)
+            {
+                CargarEmpleados();
+                return View(model);
+            }
+
+            // Calcular servicios completados automáticamente
+            var serviciosCompletados = await _context.Servicios
+                .Where(s => s.IdEmpleado == model.IdEmpleado
+                    && s.Fecha >= model.PeriodoInicio
+                    && s.Fecha <= model.PeriodoFin)
+                .CountAsync();
+
+            model.ServiciosCompletados = serviciosCompletados;
+
+            _context.Desempenos.Add(model);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Evaluación de desempeño registrada exitosamente";
+            return RedirectToAction(nameof(Evaluaciones));
+        }
+
+      
+        // EDITAR EVALUACIÓN
+       
+        public async Task<IActionResult> Editar(int id)
+        {
+            var desempeno = await _context.Desempenos.FindAsync(id);
+            if (desempeno == null) return NotFound();
+
+            CargarEmpleados();
+            return View(desempeno);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Editar(Desempeno model)
+        {
+            ModelState.Remove("Empleado");
+
+            if (!ModelState.IsValid)
+            {
+                CargarEmpleados();
+                return View(model);
+            }
+
+            _context.Update(model);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Evaluación actualizada exitosamente";
+            return RedirectToAction(nameof(Evaluaciones));
+        }
+
+        
+        // ELIMINAR EVALUACIÓN
+        
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var desempeno = await _context.Desempenos
+                .Include(d => d.Empleado)
+                .FirstOrDefaultAsync(d => d.IdDesempeno == id);
+
+            if (desempeno == null) return NotFound();
+            return View(desempeno);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EliminarConfirmado(int IdDesempeno)
+        {
+            var desempeno = await _context.Desempenos.FindAsync(IdDesempeno);
+            if (desempeno != null)
+            {
+                _context.Desempenos.Remove(desempeno);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Evaluación eliminada exitosamente";
+            }
+
+            return RedirectToAction(nameof(Evaluaciones));
+        }
+
+        // VER EVALUACIÓN INDIVIDUAL
+       
+        public async Task<IActionResult> VerEvaluacion(int id)
+        {
+            var desempeno = await _context.Desempenos
+                .Include(d => d.Empleado)
+                .FirstOrDefaultAsync(d => d.IdDesempeno == id);
+
+            if (desempeno == null) return NotFound();
+            return View(desempeno);
+        }
+
+       
+        // COMBOS
+       
+        private void CargarEmpleados()
+        {
+            ViewBag.Empleados = new SelectList(_context.Empleados, "IdEmpleado", "Nombre");
         }
     }
 

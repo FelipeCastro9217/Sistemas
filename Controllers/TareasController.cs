@@ -33,7 +33,7 @@ namespace Sistemas.Controllers
             return View();
         }
 
-        // POST: CREAR TAREA (HU0402)
+
         // POST: CREAR TAREA (HU0402)
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -129,7 +129,7 @@ namespace Sistemas.Controllers
             return View(tarea);
         }
 
-        // POST: ELIMINAR TAREA
+       
         // POST: ELIMINAR TAREA
         [HttpPost]
         [ValidateAntiForgeryToken]

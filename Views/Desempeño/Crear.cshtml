@@ -1,0 +1,65 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Sistemas.Models.Desempeno
+
+<h2>Registrar Evaluación de Desempeño</h2>
+
+<form asp-action="Crear" method="post">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label>Empleado</label>
+            <select asp-for="IdEmpleado" class="form-select" asp-items="ViewBag.Empleados">
+                <option value="">Seleccione...</option>
+            </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Fecha de Evaluación</label>
+            <input asp-for="FechaEvaluacion" type="date" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Periodo Inicio</label>
+            <input asp-for="PeriodoInicio" type="date" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Periodo Fin</label>
+            <input asp-for="PeriodoFin" type="date" class="form-control" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Calificación (1-5)</label>
+            <select asp-for="Calificacion" class="form-select">
+                <option value="1">1 - Deficiente</option>
+                <option value="2">2 - Regular</option>
+                <option value="3" selected>3 - Bueno</option>
+                <option value="4">4 - Muy Bueno</option>
+                <option value="5">5 - Excelente</option>
+            </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label>Tiempo Promedio de Servicio (minutos)</label>
+            <input asp-for="TiempoPromedioServicio" type="number" step="0.01" class="form-control" />
+        </div>
+
+        <div class="col-md-12 mb-3">
+            <label>Comentarios</label>
+            <textarea asp-for="Comentarios" class="form-control" rows="4"
+                      placeholder="Observaciones sobre el desempeño del empleado..."></textarea>
+        </div>
+    </div>
+
+    <div class="alert alert-info">
+        <strong>Nota:</strong> Los servicios completados se calcularán automáticamente según el periodo seleccionado.
+    </div>
+
+    <button class="btn btn-success">Guardar Evaluación</button>
+    <a asp-action="Evaluaciones" class="btn btn-secondary">Cancelar</a>
+</form>
+
+<div asp-validation-summary="All" class="text-danger mt-3"></div>
